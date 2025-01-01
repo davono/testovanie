@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hover Modal Example</title>
+    <link rel="stylesheet" href="styles.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.hoverLink {
+    display: inline-block;
+    margin: 10px;
+    padding: 5px 10px;
+    text-decoration: none;
+    color: #007bff;
+    cursor: pointer;
+}
+
+.hoverLink:hover {
+    text-decoration: underline;
+}
+
+.modal {
+    display: none; /* Hidden by default */
+    position: absolute;
+    z-index: 1;
+    width: 90%; /* Responsive width */
+    max-width: 300px;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    opacity: 0;
+    transition: opacity 1s ease-in-out; /* Pomalší prechod */
+}
+
+.modal.show {
+    display: block;
+    opacity: 1;
+}
+
+.modal-content {
+    padding: 10px;
+}
+
+@media (max-width: 600px) {
+    .modal {
+        width: 100%; /* Full width on small screens */
+        max-width: none;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+    }
+}
+
+
+
+</style>
+		
+</head>
+<body>
+    <a href="#" class="hoverLink" data-modal="modal1">Hover over me 1</a>
+    <a href="#" class="hoverLink" data-modal="modal2">Hover over me 2</a>
+    <a href="#" class="hoverLink" data-modal="modal3">Hover over me 3</a>
+
+    <div id="modal1" class="modal">
+        <div class="modal-content">
+            <p>This is the modal content 1.This is the modal content 1.This is the modal content 1.This is the modal content 1.This is the modal content 1.This is the modal content 1.This is the modal content 1.This is the modal content 1.This is the modal content 1.This is the modal content 1.This is the modal content 1.This is the modal content 1.This is the modal content 1.This is the modal content 1.This is the modal content 1.This is the modal content 1.This is the modal content 1.This is the modal content 1.This is the modal content 1.This is the modal content 1.This is the modal content 1.</p>
+        </div>
+    </div>
+    <div id="modal2" class="modal">
+        <div class="modal-content">
+            <p>This is the modal content 2.</p>
+        </div>
+    </div>
+    <div id="modal3" class="modal">
+        <div class="modal-content">
+            <p>This is the modal content 3.</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+	<script>
+document.querySelectorAll('.hoverLink').forEach(link => {
+    link.addEventListener('mouseover', function(event) {
+        var modalId = this.getAttribute('data-modal');
+        var modal = document.getElementById(modalId);
+        var linkRect = event.target.getBoundingClientRect();
+        var modalHeight = modal.offsetHeight;
+        var spaceAbove = linkRect.top;
+        var spaceBelow = window.innerHeight - linkRect.bottom;
+
+        if (spaceBelow >= modalHeight || spaceBelow >= spaceAbove) {
+            modal.style.top = linkRect.bottom + 'px';
+            modal.style.left = linkRect.left + 'px';
+        } else {
+            modal.style.top = (linkRect.top - modalHeight) + 'px';
+            modal.style.left = linkRect.left + 'px';
+        }
+
+        modal.classList.add('show');
+    });
+
+    link.addEventListener('mouseout', function() {
+        var modalId = this.getAttribute('data-modal');
+        var modal = document.getElementById(modalId);
+        setTimeout(function() {
+            if (!modal.matches(':hover') && !link.matches(':hover')) {
+                modal.classList.remove('show');
+            }
+        }, 100);
+    });
+
+    link.addEventListener('click', function(event) {
+        event.preventDefault();
+        var modalId = this.getAttribute('data-modal');
+        var modal = document.getElementById(modalId);
+        var linkRect = event.target.getBoundingClientRect();
+        var modalHeight = modal.offsetHeight;
+        var spaceAbove = linkRect.top;
+        var spaceBelow = window.innerHeight - linkRect.bottom;
+
+        if (spaceBelow >= modalHeight || spaceBelow >= spaceAbove) {
+            modal.style.top = linkRect.bottom + 'px';
+            modal.style.left = linkRect.left + 'px';
+        } else {
+            modal.style.top = (linkRect.top - modalHeight) + 'px';
+            modal.style.left = linkRect.left + 'px';
+        }
+
+        modal.classList.add('show');
+    });
+});
+
+document.querySelectorAll('.modal').forEach(modal => {
+    modal.addEventListener('mouseout', function() {
+        var currentModal = this;
+        setTimeout(function() {
+            var link = document.querySelector(`[data-modal="${currentModal.id}"]`);
+            if (!currentModal.matches(':hover') && !link.matches(':hover')) {
+                currentModal.classList.remove('show');
+            }
+        }, 100);
+    });
+});
+
+
+	</script>
+	
+	
+	
+	
+</body>
+</html>
